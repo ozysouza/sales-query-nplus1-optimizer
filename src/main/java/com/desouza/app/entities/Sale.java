@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -19,6 +21,10 @@ public class Sale {
     private Integer deals;
     private Double amount;
     private LocalDate date;
+
+    @ManyToOne
+    @JoinColumn(name = "seller_id")
+    private Seller seller;
 
     public Sale() {
     }
@@ -65,6 +71,14 @@ public class Sale {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public Seller getSeller() {
+        return seller;
+    }
+
+    public void setSeller(Seller seller) {
+        this.seller = seller;
     }
 
 }
