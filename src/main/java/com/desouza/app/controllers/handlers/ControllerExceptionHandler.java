@@ -1,6 +1,7 @@
 package com.desouza.app.controllers.handlers;
 
 import java.time.Instant;
+import java.time.format.DateTimeParseException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,14 @@ public class ControllerExceptionHandler {
     public ResponseEntity<CustomError> resourceNotFound(ResourceNotFoundException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.NOT_FOUND;
         CustomError err = new CustomError(e.getMessage(), status.value(), request.getRequestURI(), Instant.now());
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(DateTimeParseException.class)
+    public ResponseEntity<CustomError> DateTimeParseException(DateTimeParseException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
+        CustomError err = new CustomError("Data format should be YYYY-MM-DD", status.value(), request.getRequestURI(),
+                Instant.now());
         return ResponseEntity.status(status).body(err);
     }
 
